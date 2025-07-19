@@ -44,10 +44,10 @@ export async function deactivate() {
     console.log('🛑 Deactivating Coding Habit Tracker...');
     
     try {
-        if (codingTracker) {
-            await codingTracker.stopTracking();
-        }
-        
+    if (codingTracker) {
+        await codingTracker.stopTracking();
+    }
+    
         if (statusBarManager) {
             statusBarManager.dispose();
         }
@@ -78,13 +78,13 @@ function registerFileListeners(context: vscode.ExtensionContext) {
             codingTracker.onFileSaved(document);
         })
     );
-
+    
     context.subscriptions.push(
         vscode.workspace.onDidChangeTextDocument(event => {
             codingTracker.onTextChanged(event);
         })
     );
-
+    
     context.subscriptions.push(
         vscode.window.onDidChangeActiveTextEditor(editor => {
             codingTracker.onActiveEditorChanged(editor);

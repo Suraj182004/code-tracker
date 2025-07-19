@@ -1,0 +1,63 @@
+# Build files
+src/**
+tsconfig.json
+webpack.config.js
+.vscode-test/**
+.gitignore
+.DS_Store
+
+# Dependencies
+node_modules/**
+../node_modules/**
+../../node_modules/**
+
+# Other packages in monorepo
+../backend-api/**
+../web-platform/**
+../chrome-extension/**
+../**
+../../**
+
+# Environment files
+.env
+.env.*
+**/.env
+**/.env.*
+
+# Source maps
+*.map
+
+# Logs
+*.log
+logs/**
+
+# Test files
+**/*.test.*
+**/*.spec.*
+test/**
+tests/**
+
+# Documentation (keep only README)
+docs/**
+CHANGELOG.md
+
+# IDE files
+.vscode/**
+.idea/**
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Lock files
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Coverage
+coverage/**
+.nyc_output/**
+
+# Temporary files
+tmp/**
+temp/** 

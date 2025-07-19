@@ -51,10 +51,16 @@ app.use(cors({
   origin: [
     process.env.FRONTEND_URL || 'http://localhost:5173',
     'chrome-extension://' + process.env.CHROME_EXTENSION_ID,
+    // Allow VS Code extension requests (they come from file:// protocol)
+    /^file:\/\//,
+    // Allow localhost for development
+    /^https?:\/\/localhost/,
+    // Allow Railway domain
+    /^https:\/\/.*\.railway\.app$/
   ],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  allowedHeaders: ['Content-Type', 'Authorization', 'User-Agent']
 }));
 
 app.use(express.json({ limit: '10mb' }));
@@ -83,10 +89,39 @@ app.get('/health', async (req: Request, res: Response) => {
   });
 });
 
+// Ping endpoint for VS Code extension
+app.get('/api/ping', (req: Request, res: Response) => {
+  res.json({
+    message: 'pong',
+    timestamp: new Date().toISOString(),
+    service: 'coding-habit-tracker-api'
+  });
+});
+
 // API routes
 app.use('/api/auth', authRoutes);
 app.use('/api/sessions', sessionRoutes);
 app.use('/api/tracking', trackingRoutes);
+
+// Analytics endpoint for VS Code extension
+app.get('/api/analytics', (req: Request, res: Response) => {
+  // TODO: Implement actual analytics logic
+  res.json({
+    message: 'Analytics endpoint - to be implemented',
+    timestamp: new Date().toISOString(),
+    source: req.query.source || 'unknown'
+  });
+});
+
+// Leaderboard endpoint for VS Code extension
+app.get('/api/leaderboard', (req: Request, res: Response) => {
+  // TODO: Implement actual leaderboard logic
+  res.json({
+    message: 'Leaderboard endpoint - to be implemented',
+    timestamp: new Date().toISOString(),
+    timeframe: req.query.timeframe || 'weekly'
+  });
+});
 
 // Root endpoint
 app.get('/api', (req: Request, res: Response) => {

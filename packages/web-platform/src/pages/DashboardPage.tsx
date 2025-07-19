@@ -6,7 +6,7 @@ import { ActivityChart } from '../components/dashboard/ActivityChart';
 const apiClient = createApiClient();
 
 export function DashboardPage() {
-  const [sessions, setSessions] = useState([]);
+  const [sessions, setSessions] = useState<any[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 

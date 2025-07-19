@@ -3,7 +3,7 @@
   "displayName": "Coding Habit Tracker",
   "description": "Track your coding habits, monitor productivity, and build better development practices with real-time analytics.",
   "version": "1.0.0",
-  "publisher": "coding-habit-tracker",
+  "publisher": "Suraj182004",
   "engines": {
     "vscode": "^1.74.0"
   },
@@ -119,7 +119,7 @@
         },
         "codingHabitTracker.apiEndpoint": {
           "type": "string",
-          "default": "https://your-railway-app.railway.app",
+          "default": "https://code-tracker-production.up.railway.app",
           "description": "Backend API endpoint for data synchronization"
         },
         "codingHabitTracker.authToken": {
@@ -218,14 +218,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/coding-habit-tracker.git"
+    "url": "https://github.com/Suraj182004/code-tracker.git"
   },
   "bugs": {
-    "url": "https://github.com/yourusername/coding-habit-tracker/issues"
+    "url": "https://github.com/Suraj182004/code-tracker/issues"
   },
-  "homepage": "https://your-app.vercel.app",
+  "homepage": "https://github.com/Suraj182004/code-tracker",
   "license": "MIT",
-  "icon": "images/icon.png",
   "galleryBanner": {
     "color": "#0a0a0a",
     "theme": "dark"

@@ -202,7 +202,10 @@ export class CommandManager {
      */
     openDashboard(): void {
         const config = vscode.workspace.getConfiguration('codingHabitTracker');
-        const webUrl = 'http://localhost:5173/dashboard'; // Web platform URL
+        const apiEndpoint = config.get('apiEndpoint', 'https://code-tracker-production.up.railway.app');
+        // Extract base URL and construct web platform URL
+        const baseUrl = apiEndpoint.replace('/api', '').replace('/health', '');
+        const webUrl = `${baseUrl.replace('https://', 'https://')}/dashboard`;
         
         vscode.env.openExternal(vscode.Uri.parse(webUrl));
         
@@ -258,7 +261,11 @@ export class CommandManager {
      * View leaderboard
      */
     viewLeaderboard(): void {
-        const leaderboardUrl = 'http://localhost:5173/leaderboard';
+        const config = vscode.workspace.getConfiguration('codingHabitTracker');
+        const apiEndpoint = config.get('apiEndpoint', 'https://code-tracker-production.up.railway.app');
+        // Extract base URL and construct web platform URL
+        const baseUrl = apiEndpoint.replace('/api', '').replace('/health', '');
+        const leaderboardUrl = `${baseUrl.replace('https://', 'https://')}/leaderboard`;
         
         vscode.env.openExternal(vscode.Uri.parse(leaderboardUrl));
         

@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.input {
+  @apply bg-dev-tertiary-bg border border-dev-text-muted/20 rounded-md px-3 py-2 text-dev-text-primary focus:border-dev-accent-primary focus:outline-none;
+}
+
+.toggle {
+  @apply w-12 h-6 bg-dev-text-muted rounded-full relative appearance-none cursor-pointer;
+}
+
+.toggle:checked {
+  @apply bg-dev-accent-primary;
+}
+
+.toggle::after {
+  content: '';
+  @apply w-5 h-5 bg-white rounded-full absolute top-0.5 left-0.5 transition-transform;
+}
+
+.toggle:checked::after {
+  @apply transform translate-x-6;
+} 

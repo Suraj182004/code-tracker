@@ -1,0 +1,27 @@
+# Build outputs
+out/
+dist/
+*.vsix
+
+# TypeScript incremental compilation
+*.tsbuildinfo
+
+# Webpack
+.webpack/
+
+# VS Code extension testing
+.vscode-test/
+.vscode-test-web/
+
+# Logs
+*.log
+
+# Coverage
+coverage/
+
+# Environment
+.env
+
+# OS
+.DS_Store
+Thumbs.db 

@@ -1,0 +1,160 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 10 10 10; /* #0a0a0a */
+    --foreground: 255 255 255; /* #ffffff */
+    --card: 17 17 17; /* #111111 */
+    --card-foreground: 255 255 255; /* #ffffff */
+    --popover: 17 17 17; /* #111111 */
+    --popover-foreground: 255 255 255; /* #ffffff */
+    --primary: 0 212 255; /* #00d4ff */
+    --primary-foreground: 0 0 0; /* #000000 */
+    --secondary: 26 26 26; /* #1a1a1a */
+    --secondary-foreground: 255 255 255; /* #ffffff */
+    --muted: 26 26 26; /* #1a1a1a */
+    --muted-foreground: 161 161 170; /* #a1a1aa */
+    --accent: 124 58 237; /* #7c3aed */
+    --accent-foreground: 255 255 255; /* #ffffff */
+    --destructive: 239 68 68; /* #ef4444 */
+    --destructive-foreground: 255 255 255; /* #ffffff */
+    --border: 39 39 42; /* #27272a */
+    --input: 39 39 42; /* #27272a */
+    --ring: 0 212 255; /* #00d4ff */
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 10 10 10; /* #0a0a0a */
+    --foreground: 255 255 255; /* #ffffff */
+    --card: 17 17 17; /* #111111 */
+    --card-foreground: 255 255 255; /* #ffffff */
+    --popover: 17 17 17; /* #111111 */
+    --popover-foreground: 255 255 255; /* #ffffff */
+    --primary: 0 212 255; /* #00d4ff */
+    --primary-foreground: 0 0 0; /* #000000 */
+    --secondary: 26 26 26; /* #1a1a1a */
+    --secondary-foreground: 255 255 255; /* #ffffff */
+    --muted: 26 26 26; /* #1a1a1a */
+    --muted-foreground: 161 161 170; /* #a1a1aa */
+    --accent: 124 58 237; /* #7c3aed */
+    --accent-foreground: 255 255 255; /* #ffffff */
+    --destructive: 239 68 68; /* #ef4444 */
+    --destructive-foreground: 255 255 255; /* #ffffff */
+    --border: 39 39 42; /* #27272a */
+    --input: 39 39 42; /* #27272a */
+    --ring: 0 212 255; /* #00d4ff */
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  /* Custom scrollbar styling */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-dev-secondary-bg;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-dev-text-muted rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-dev-accent-primary;
+  }
+
+  /* Selection styling */
+  ::selection {
+    @apply bg-dev-accent-primary text-dev-text-inverse;
+  }
+
+  /* Focus styles */
+  :focus-visible {
+    @apply outline-none ring-2 ring-dev-accent-primary ring-offset-2 ring-offset-dev-primary-bg;
+  }
+
+  /* Code block styling */
+  code {
+    @apply font-mono text-sm bg-dev-secondary-bg px-1.5 py-0.5 rounded text-dev-accent-primary;
+  }
+
+  pre code {
+    @apply bg-transparent px-0 py-0;
+  }
+
+  /* Glassmorphism utility classes */
+  .glass {
+    @apply bg-glass-bg backdrop-blur-sm border border-glass-border;
+  }
+
+  .glass-strong {
+    @apply bg-glass-bg backdrop-blur-md border border-glass-border;
+  }
+
+  /* Animation utilities */
+  .animate-in {
+    @apply animate-fade-in;
+  }
+
+  .animate-slide-in {
+    @apply animate-slide-in;
+  }
+
+  /* Gradient backgrounds */
+  .gradient-primary {
+    background: linear-gradient(135deg, #00d4ff 0%, #7c3aed 100%);
+  }
+
+  .gradient-coding {
+    background: linear-gradient(135deg, #10b981 0%, #00d4ff 50%, #7c3aed 100%);
+  }
+
+  /* Language color utilities */
+  .lang-javascript { @apply text-languages-javascript; }
+  .lang-typescript { @apply text-languages-typescript; }
+  .lang-python { @apply text-languages-python; }
+  .lang-react { @apply text-languages-react; }
+  .lang-vue { @apply text-languages-vue; }
+  .lang-go { @apply text-languages-go; }
+  .lang-rust { @apply text-languages-rust; }
+  .lang-java { @apply text-languages-java; }
+
+  /* Live coding indicator */
+  .coding-indicator {
+    @apply relative;
+  }
+
+  .coding-indicator::before {
+    content: '';
+    @apply absolute -top-1 -right-1 w-3 h-3 bg-dev-accent-success rounded-full animate-coding-pulse;
+  }
+
+  /* Productivity ring animations */
+  .productivity-ring {
+    transform-origin: 50% 50%;
+    transition: stroke-dasharray 0.3s ease-in-out;
+  }
+
+  /* Hover effects */
+  .hover-lift {
+    @apply transition-transform duration-200 ease-out hover:scale-105;
+  }
+
+  .hover-glow {
+    @apply transition-shadow duration-200 ease-out hover:shadow-lg hover:shadow-dev-accent-primary/20;
+  }
+} 

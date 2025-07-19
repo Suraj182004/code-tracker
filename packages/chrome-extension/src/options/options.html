@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coding Habit Tracker - Settings</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body class="bg-dev-primary-bg text-dev-text-primary font-sans min-h-screen">
+  <div class="max-w-4xl mx-auto p-6">
+    <!-- Header -->
+    <div class="mb-8">
+      <h1 class="text-3xl font-bold text-dev-text-primary mb-2">Extension Settings</h1>
+      <p class="text-dev-text-secondary">Customize your coding habit tracking experience</p>
+    </div>
+
+    <!-- Settings Form -->
+    <div class="space-y-6">
+      <!-- Tracking Settings -->
+      <div class="bg-dev-secondary-bg rounded-lg p-6">
+        <h2 class="text-xl font-semibold mb-4 text-dev-text-primary">Tracking Settings</h2>
+        
+        <div class="space-y-4">
+          <div class="flex items-center justify-between">
+            <label class="text-dev-text-primary">Enable Website Tracking</label>
+            <input type="checkbox" id="trackingEnabled" class="toggle" checked>
+          </div>
+          
+          <div class="flex items-center justify-between">
+            <label class="text-dev-text-primary">Idle Detection Threshold (seconds)</label>
+            <input type="number" id="idleThreshold" value="60" min="30" max="300" class="input">
+          </div>
+          
+          <div class="flex items-center justify-between">
+            <label class="text-dev-text-primary">Sync Interval (minutes)</label>
+            <input type="number" id="syncInterval" value="5" min="1" max="60" class="input">
+          </div>
+        </div>
+      </div>
+
+      <!-- Notifications -->
+      <div class="bg-dev-secondary-bg rounded-lg p-6">
+        <h2 class="text-xl font-semibold mb-4 text-dev-text-primary">Notifications</h2>
+        
+        <div class="space-y-4">
+          <div class="flex items-center justify-between">
+            <label class="text-dev-text-primary">Show Notifications</label>
+            <input type="checkbox" id="showNotifications" class="toggle" checked>
+          </div>
+          
+          <div class="flex items-center justify-between">
+            <label class="text-dev-text-primary">Daily Goal (minutes)</label>
+            <input type="number" id="productivityGoal" value="480" min="60" max="1440" class="input">
+          </div>
+        </div>
+      </div>
+
+      <!-- Save Button -->
+      <div class="flex justify-end">
+        <button id="saveSettings" class="px-6 py-2 bg-dev-accent-primary text-dev-text-inverse rounded-lg hover:bg-dev-accent-primary/80 transition-colors">
+          Save Settings
+        </button>
+      </div>
+    </div>
+  </div>
+</body>
+</html> 

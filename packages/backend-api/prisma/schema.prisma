@@ -1,0 +1,174 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// User profiles (extends Supabase auth.users)
+model Profile {
+  id               String   @id @db.Uuid
+  username         String   @unique @db.VarChar(50)
+  displayName      String?  @map("display_name") @db.VarChar(100)
+  avatarUrl        String?  @map("avatar_url")
+  timezone         String   @default("UTC") @db.VarChar(50)
+  settings         Json     @default("{\"theme\": \"system\", \"notifications\": true, \"leaderboard_visible\": true, \"data_sharing\": true}")
+  privacySettings  Json     @default("{\"show_detailed_stats\": true, \"show_activity_status\": true, \"allow_friend_requests\": true}") @map("privacy_settings")
+  subscriptionTier String   @default("free") @map("subscription_tier") @db.VarChar(20)
+  createdAt        DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt        DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  // Relations
+  codingSessions   CodingSession[]
+  websiteSessions  WebsiteSession[]
+  dailyStats       DailyStats[]
+  goals            Goal[]
+  teamMemberships  TeamMember[]
+  createdTeams     Team[]          @relation("TeamCreator")
+
+  @@map("profiles")
+}
+
+// Coding sessions (partitioned by month)
+model CodingSession {
+  id               String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId           String    @map("user_id") @db.Uuid
+  sessionStart     DateTime  @map("session_start") @db.Timestamptz(6)
+  sessionEnd       DateTime? @map("session_end") @db.Timestamptz(6)
+  projectName      String?   @map("project_name") @db.VarChar(200)
+  projectPath      String?   @map("project_path")
+  workspaceName    String?   @map("workspace_name") @db.VarChar(200)
+  language         String?   @db.VarChar(50)
+  framework        String?   @db.VarChar(50)
+  editorTheme      String?   @map("editor_theme") @db.VarChar(50)
+  linesAdded       Int       @default(0) @map("lines_added")
+  linesDeleted     Int       @default(0) @map("lines_deleted")
+  linesModified    Int       @default(0) @map("lines_modified")
+  keystrokes       Int       @default(0)
+  charactersTyped  Int       @default(0) @map("characters_typed")
+  filesModified    Int       @default(0) @map("files_modified")
+  gitCommits       Int       @default(0) @map("git_commits")
+  breakpointsHit   Int       @default(0) @map("breakpoints_hit")
+  durationSeconds  Int?      @map("duration_seconds")
+  productivityScore Float    @default(0) @map("productivity_score")
+  metadata         Json      @default("{}")
+  createdAt        DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt        DateTime  @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  // Relations
+  user Profile @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, sessionStart])
+  @@map("coding_sessions")
+}
+
+// Website sessions (partitioned by month)
+model WebsiteSession {
+  id              String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId          String    @map("user_id") @db.Uuid
+  domain          String    @db.VarChar(255)
+  urlCategory     String    @default("uncategorized") @map("url_category") @db.VarChar(50)
+  sessionStart    DateTime  @map("session_start") @db.Timestamptz(6)
+  sessionEnd      DateTime? @map("session_end") @db.Timestamptz(6)
+  durationSeconds Int?      @map("duration_seconds")
+  idleTimeSeconds Int       @default(0) @map("idle_time_seconds")
+  tabSwitches     Int       @default(0) @map("tab_switches")
+  pageViews       Int       @default(1) @map("page_views")
+  productivityScore Float?  @map("productivity_score")
+  focusScore      Float     @default(0) @map("focus_score")
+  createdAt       DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  // Relations
+  user Profile @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, sessionStart])
+  @@map("website_sessions")
+}
+
+// Pre-computed daily statistics
+model DailyStats {
+  id                    String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId                String   @map("user_id") @db.Uuid
+  date                  DateTime @db.Date
+  codingTimeSeconds     Int      @default(0) @map("coding_time_seconds")
+  websiteTimeSeconds    Int      @default(0) @map("website_time_seconds")
+  productiveTimeSeconds Int      @default(0) @map("productive_time_seconds")
+  distractionTimeSeconds Int     @default(0) @map("distraction_time_seconds")
+  deepWorkSessions      Int      @default(0) @map("deep_work_sessions")
+  languagesUsed         String[] @default([]) @map("languages_used")
+  topDomains            String[] @default([]) @map("top_domains")
+  topProjects           String[] @default([]) @map("top_projects")
+  linesOfCode           Int      @default(0) @map("lines_of_code")
+  commitsMade           Int      @default(0) @map("commits_made")
+  productivityScore     Float    @default(0) @map("productivity_score")
+  focusScore            Float    @default(0) @map("focus_score")
+  streakDays            Int      @default(0) @map("streak_days")
+  goalsCompleted        Int      @default(0) @map("goals_completed")
+  achievementsEarned    String[] @default([]) @map("achievements_earned")
+  createdAt             DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt             DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  // Relations
+  user Profile @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, date])
+  @@index([userId, date])
+  @@map("daily_stats")
+}
+
+// Goals and achievements
+model Goal {
+  id           String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId       String    @map("user_id") @db.Uuid
+  type         String    @db.VarChar(50) // 'daily_coding', 'weekly_hours', 'language_focus'
+  targetValue  Int       @map("target_value")
+  currentValue Int       @default(0) @map("current_value")
+  targetDate   DateTime? @map("target_date") @db.Date
+  status       String    @default("active") @db.VarChar(20) // 'active', 'completed', 'paused'
+  metadata     Json      @default("{}")
+  createdAt    DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt    DateTime  @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  // Relations
+  user Profile @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, status])
+  @@map("goals")
+}
+
+// Team/organization support
+model Team {
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name        String   @db.VarChar(100)
+  description String?
+  inviteCode  String?  @unique @map("invite_code") @db.VarChar(20)
+  settings    Json     @default("{}")
+  createdBy   String?  @map("created_by") @db.Uuid
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  // Relations
+  creator Profile?     @relation("TeamCreator", fields: [createdBy], references: [id])
+  members TeamMember[]
+
+  @@map("teams")
+}
+
+model TeamMember {
+  teamId   String   @map("team_id") @db.Uuid
+  userId   String   @map("user_id") @db.Uuid
+  role     String   @default("member") @db.VarChar(20) // 'admin', 'member'
+  joinedAt DateTime @default(now()) @map("joined_at") @db.Timestamptz(6)
+
+  // Relations
+  team Team    @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  user Profile @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([teamId, userId])
+  @@map("team_members")
+} 

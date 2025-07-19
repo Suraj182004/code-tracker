@@ -1,0 +1,233 @@
+{
+  "name": "coding-habit-tracker",
+  "displayName": "Coding Habit Tracker",
+  "description": "Track your coding habits, monitor productivity, and build better development practices with real-time analytics.",
+  "version": "1.0.0",
+  "publisher": "coding-habit-tracker",
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "categories": [
+    "Other",
+    "Visualization",
+    "Data Science"
+  ],
+  "keywords": [
+    "productivity",
+    "tracking",
+    "analytics",
+    "habits",
+    "coding",
+    "time",
+    "statistics"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "coding-habit-tracker.showStats",
+        "title": "Show Today's Stats",
+        "category": "Coding Habit Tracker"
+      },
+      {
+        "command": "coding-habit-tracker.toggleTracking",
+        "title": "Toggle Tracking",
+        "category": "Coding Habit Tracker"
+      },
+      {
+        "command": "coding-habit-tracker.openDashboard",
+        "title": "Open Dashboard",
+        "category": "Coding Habit Tracker"
+      },
+      {
+        "command": "coding-habit-tracker.syncData",
+        "title": "Sync Data",
+        "category": "Coding Habit Tracker"
+      },
+      {
+        "command": "coding-habit-tracker.viewLeaderboard",
+        "title": "View Leaderboard",
+        "category": "Coding Habit Tracker"
+      },
+      {
+        "command": "coding-habit-tracker.startTracking",
+        "title": "Start Tracking"
+      },
+      {
+        "command": "coding-habit-tracker.stopTracking",
+        "title": "Stop Tracking"
+      },
+      {
+        "command": "coding-habit-tracker.login",
+        "title": "Login"
+      },
+      {
+        "command": "coding-habit-tracker.logout",
+        "title": "Logout"
+      },
+      {
+        "command": "coding-habit-tracker.checkAuth",
+        "title": "Check Authentication Status"
+      },
+      {
+        "command": "coding-habit-tracker.testBackend",
+        "title": "Test Backend Connection"
+      }
+    ],
+    "configuration": {
+      "title": "Coding Habit Tracker",
+      "properties": {
+        "codingHabitTracker.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable/disable coding activity tracking"
+        },
+        "codingHabitTracker.syncInterval": {
+          "type": "number",
+          "default": 5,
+          "minimum": 1,
+          "maximum": 60,
+          "description": "Data sync interval in minutes"
+        },
+        "codingHabitTracker.showStatusBar": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show tracking status in status bar"
+        },
+        "codingHabitTracker.trackFileOperations": {
+          "type": "boolean",
+          "default": true,
+          "description": "Track file operations (save, create, delete)"
+        },
+        "codingHabitTracker.trackGitOperations": {
+          "type": "boolean",
+          "default": true,
+          "description": "Track Git operations and repository context"
+        },
+        "codingHabitTracker.excludePatterns": {
+          "type": "array",
+          "default": [
+            "**/node_modules/**",
+            "**/dist/**",
+            "**/build/**",
+            "**/.git/**"
+          ],
+          "description": "File patterns to exclude from tracking"
+        },
+        "codingHabitTracker.apiEndpoint": {
+          "type": "string",
+          "default": "https://your-railway-app.railway.app",
+          "description": "Backend API endpoint for data synchronization"
+        },
+        "codingHabitTracker.authToken": {
+          "type": "string",
+          "default": "",
+          "description": "Authentication token for API access (automatically managed)"
+        },
+        "codingHabitTracker.enableNotifications": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable productivity notifications"
+        },
+        "codingHabitTracker.dailyGoal": {
+          "type": "number",
+          "default": 480,
+          "minimum": 30,
+          "maximum": 1440,
+          "description": "Daily coding goal in minutes"
+        }
+      }
+    },
+    "menus": {
+      "commandPalette": [
+        {
+          "command": "coding-habit-tracker.showStats"
+        },
+        {
+          "command": "coding-habit-tracker.toggleTracking"
+        },
+        {
+          "command": "coding-habit-tracker.openDashboard"
+        },
+        {
+          "command": "coding-habit-tracker.syncData"
+        },
+        {
+          "command": "coding-habit-tracker.viewLeaderboard"
+        }
+      ],
+      "view/title": [
+        {
+          "command": "coding-habit-tracker.showStats",
+          "when": "view == codingHabitTracker.statsView",
+          "group": "navigation"
+        }
+      ]
+    },
+    "views": {
+      "explorer": [
+        {
+          "id": "codingHabitTracker.statsView",
+          "name": "Coding Stats",
+          "when": "codingHabitTracker.enabled"
+        }
+      ]
+    },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "codingHabitTracker",
+          "title": "Coding Habit Tracker",
+          "icon": "$(graph-line)"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "webpack --mode production",
+    "compile-dev": "webpack --mode development",
+    "watch": "webpack --mode development --watch",
+    "package": "vsce package",
+    "test": "node ./dist/test/runTest.js",
+    "test-compile": "tsc -p ./ && npm run compile-dev",
+    "lint": "eslint src --ext ts",
+    "lint:fix": "eslint src --ext ts --fix",
+    "type-check": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.74.0",
+    "@types/node": "18.x",
+    "@types/mocha": "^10.0.1",
+    "@typescript-eslint/eslint-plugin": "^6.10.0",
+    "@typescript-eslint/parser": "^6.10.0",
+    "eslint": "^8.53.0",
+    "typescript": "^5.2.2",
+    "webpack": "^5.89.0",
+    "webpack-cli": "^5.1.4",
+    "ts-loader": "^9.5.0",
+    "@vscode/test-electron": "^2.3.6",
+    "@vscode/vsce": "^2.21.1"
+  },
+  "dependencies": {
+    "axios": "^1.6.0",
+    "moment": "^2.29.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/coding-habit-tracker.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/coding-habit-tracker/issues"
+  },
+  "homepage": "https://your-app.vercel.app",
+  "license": "MIT",
+  "icon": "images/icon.png",
+  "galleryBanner": {
+    "color": "#0a0a0a",
+    "theme": "dark"
+  }
+} 

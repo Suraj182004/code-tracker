@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coding Habit Tracker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body class="w-80 min-h-96 bg-dev-primary-bg text-dev-text-primary font-sans">
+  <!-- Header -->
+  <div class="bg-gradient-to-r from-dev-accent-primary to-dev-accent-secondary p-4">
+    <div class="flex items-center justify-between">
+      <div class="flex items-center space-x-2">
+        <div class="w-8 h-8 bg-dev-text-inverse rounded-lg flex items-center justify-center">
+          <span class="text-sm font-bold text-dev-accent-primary">CHT</span>
+        </div>
+        <h1 class="text-sm font-semibold text-dev-text-inverse">Coding Habit Tracker</h1>
+      </div>
+      <button id="settingsBtn" class="text-dev-text-inverse hover:text-dev-text-secondary transition-colors">
+        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Status Section -->
+  <div class="p-4 border-b border-dev-text-muted/20">
+    <div id="trackingStatus" class="flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div id="statusIndicator" class="w-3 h-3 rounded-full bg-dev-accent-success animate-pulse"></div>
+        <div>
+          <div id="currentDomain" class="text-sm font-medium">github.com</div>
+          <div id="currentCategory" class="text-xs text-dev-text-secondary">Coding & Development</div>
+        </div>
+      </div>
+      <button id="toggleTracking" class="px-3 py-1 bg-dev-accent-primary text-dev-text-inverse text-xs rounded-md hover:bg-dev-accent-primary/80 transition-colors">
+        Pause
+      </button>
+    </div>
+    
+    <!-- Current Session Info -->
+    <div id="currentSession" class="mt-3 space-y-2">
+      <div class="flex justify-between text-xs">
+        <span class="text-dev-text-secondary">Session Time</span>
+        <span id="sessionTime" class="font-mono text-dev-text-primary">00:15:32</span>
+      </div>
+      <div class="flex justify-between text-xs">
+        <span class="text-dev-text-secondary">Productivity Score</span>
+        <span id="productivityScore" class="font-mono text-dev-accent-success">95%</span>
+      </div>
+      <div class="w-full bg-dev-secondary-bg rounded-full h-2">
+        <div id="productivityBar" class="bg-gradient-to-r from-dev-accent-success to-dev-accent-primary h-2 rounded-full transition-all duration-500" style="width: 95%"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Today's Stats -->
+  <div class="p-4 border-b border-dev-text-muted/20">
+    <h3 class="text-sm font-semibold mb-3 flex items-center">
+      <svg class="w-4 h-4 mr-2 text-dev-accent-primary" fill="currentColor" viewBox="0 0 20 20">
+        <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path>
+      </svg>
+      Today's Activity
+    </h3>
+    
+    <div class="grid grid-cols-2 gap-3">
+      <div class="bg-dev-secondary-bg rounded-lg p-3">
+        <div class="text-xs text-dev-text-secondary">Total Time</div>
+        <div id="todayTotalTime" class="text-lg font-bold font-mono text-dev-text-primary">4h 32m</div>
+      </div>
+      <div class="bg-dev-secondary-bg rounded-lg p-3">
+        <div class="text-xs text-dev-text-secondary">Productive</div>
+        <div id="todayProductiveTime" class="text-lg font-bold font-mono text-dev-accent-success">3h 45m</div>
+      </div>
+    </div>
+
+    <!-- Quick Category Breakdown -->
+    <div class="mt-3 space-y-2">
+      <div id="categoryBreakdown">
+        <!-- Categories will be populated dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Top Domains -->
+  <div class="p-4 border-b border-dev-text-muted/20">
+    <h3 class="text-sm font-semibold mb-3 flex items-center">
+      <svg class="w-4 h-4 mr-2 text-dev-accent-secondary" fill="currentColor" viewBox="0 0 20 20">
+        <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zm0 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V8zm0 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1v-2z" clip-rule="evenodd"></path>
+      </svg>
+      Top Sites Today
+    </h3>
+    
+    <div id="topDomains" class="space-y-2">
+      <!-- Top domains will be populated dynamically -->
+    </div>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="p-4">
+    <div class="grid grid-cols-2 gap-2">
+      <button id="focusModeBtn" class="flex items-center justify-center px-3 py-2 bg-dev-secondary-bg hover:bg-dev-tertiary-bg rounded-lg text-xs font-medium transition-colors">
+        <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path>
+        </svg>
+        Focus Mode
+      </button>
+      
+      <button id="analyticsBtn" class="flex items-center justify-center px-3 py-2 bg-dev-secondary-bg hover:bg-dev-tertiary-bg rounded-lg text-xs font-medium transition-colors">
+        <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"></path>
+        </svg>
+        Analytics
+      </button>
+    </div>
+    
+    <button id="syncBtn" class="w-full mt-2 px-3 py-2 bg-dev-accent-primary hover:bg-dev-accent-primary/80 text-dev-text-inverse rounded-lg text-xs font-medium transition-colors flex items-center justify-center">
+      <svg id="syncIcon" class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+        <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd"></path>
+      </svg>
+      <span id="syncText">Sync Data</span>
+    </button>
+  </div>
+
+  <!-- Auth Section (hidden when authenticated) -->
+  <div id="authSection" class="p-4 border-t border-dev-text-muted/20 hidden">
+    <div class="text-center">
+      <p class="text-xs text-dev-text-secondary mb-3">Sign in to sync your data across devices</p>
+      <button id="signInBtn" class="w-full px-3 py-2 bg-dev-accent-secondary hover:bg-dev-accent-secondary/80 text-dev-text-inverse rounded-lg text-xs font-medium transition-colors">
+        Sign In
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div id="loadingState" class="absolute inset-0 bg-dev-primary-bg/80 backdrop-blur-sm flex items-center justify-center hidden">
+    <div class="text-center">
+      <div class="inline-block animate-spin rounded-full h-6 w-6 border-b-2 border-dev-accent-primary"></div>
+      <p class="text-xs text-dev-text-secondary mt-2">Loading...</p>
+    </div>
+  </div>
+</body>
+</html> 
